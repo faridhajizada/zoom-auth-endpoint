@@ -8,7 +8,7 @@ const KJUR = require("jsrsasign");
 const app = express();
 const port = process.env.PORT || 4000;
 
-app.use(bodyParser.json(), cors());
+app.use(bodyParser.json(), cors({ origin: 'http://localhost:3000', credentials: true }));
 app.options("*", cors());
 
 app.post("/", (req, res) => {
@@ -35,6 +35,9 @@ app.post("/", (req, res) => {
     sPayload,
     process.env.ZOOM_MEETING_SDK_SECRET
   );
+
+  res.header('Access-Control-Allow-Credentials', 'true');
+  
   res.json({
     signature: signature,
   });
